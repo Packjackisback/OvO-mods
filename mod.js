@@ -7,4 +7,4 @@ setInterval(function() {
   if (layout.name == "Level 41") {
     c2_callFunction("Menu > EndGame", []);
   }
-}, 100);
+}, 16);
