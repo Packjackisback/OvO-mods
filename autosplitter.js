@@ -1,5 +1,5 @@
-//quick and dirty autosplitter, poc, shows time per level in milliseconds. As of now just restarts timer when level 1 is loaded
-(function() {
+//still poc, added support for restarting on level 1, as of now still only supports any%
+(function () {
   // Check if the autosplitter is already running
   if (window.autosplitterRunning) {
     alert('Autosplitter is already running.');
@@ -24,6 +24,7 @@
       const splitTime = currentTime - timerStart;
       const timestampItem = document.createElement('li');
       timestampItem.style.color = 'black'; // Set text color to black
+      timestampItem.style.fontFamily = 'Retron2000'; // Set the font
       timestampItem.textContent = `Split: ${splitTime} ms`;
       logElement.appendChild(timestampItem);
     }
@@ -50,6 +51,20 @@
     // Continue checking for layout changes
     setTimeout(checkLayoutChange, 100); // Check every 100 milliseconds
   }
+
+  // Function to handle keydown events
+  function handleKeyDown(event) {
+    const currentLayoutName = getCurrentLayoutName();
+
+    // Check if the key 'r' is pressed and the current layout is "Level 1"
+    if (event.key === 'r' && currentLayoutName === 'Level 1') {
+      // Restart the timer
+      timerStart = new Date().getTime();
+    }
+  }
+
+  // Add an event listener for keydown events
+  document.addEventListener('keydown', handleKeyDown);
 
   // Create a button for manual splitting
   const splitButton = document.createElement('button');
