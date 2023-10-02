@@ -14,6 +14,7 @@
   let previousLayoutName = getCurrentLayoutName();
   let timerStart = 0; // Timestamp when the timer started
   let currentSection = 'Basics'; // Initialize with the first section name
+  let previousSection = 'Basics';
 
   // Function to add a timestamp in milliseconds to the log with animation
   function addTimestampWithAnimation(section) {
@@ -46,25 +47,47 @@
     }
   }
 
+  function extractLastNumberFromLevelName(levelName) {
+    // Use a regular expression to extract the last number from the level name
+    const matches = levelName.match(/\d+$/);
+  
+    // Check if there is a match (a number at the end of the string)
+    if (matches && matches.length > 0) {
+      // Convert the matched string to an integer
+      const lastNumber = parseInt(matches[0], 10);
+      return lastNumber;
+    }
+  
+    // Return a default value or handle the case where no number is found
+    return -1; // You can choose a suitable default value
+  }
   // Function to check for layout name changes and trigger a split
   function checkLayoutChange() {
     const currentLayoutName = getCurrentLayoutName();
 
     if (currentLayoutName !== previousLayoutName) {
       // Layout name has changed
-      if (currentLayoutName >= 'Level 1' && currentLayoutName <= 'Level 8') {
+      let levelNum = extractLastNumberFromLevelName(currentLayoutName);
+
+      if (levelNum >= 1 && levelNum <= 8) {
         currentSection = 'Basics';
-      } else if (currentLayoutName >= 'Level 9' && currentLayoutName <= 'Level 16') {
+        console.log("SET TO BASICS");
+      } else if (levelNum >= 9 && levelNum <= 16) {
         currentSection = 'Getting Serious';
-      } else if (currentLayoutName >= 'Level 17' && currentLayoutName <= 'Level 24') {
+        console.log("SET TO GS");
+      } else if (levelNum >= 17 && levelNum <= 24) {
         currentSection = 'Higher Order';
-      } else if (currentLayoutName >= 'Level 25' && currentLayoutName <= 'Level 32') {
+        console.log("SET TO HO");
+      } else if (levelNum >= 25 && levelNum <= 32) {
         currentSection = 'Mechanics';
-      } else if (currentLayoutName >= 'Level 33' && currentLayoutName <= 'Level 40') {
+        console.log("SET TO MECHANICS");
+      } else if (levelNum >= 33 && levelNum <= 40) {
         currentSection = 'OvO Space Program';
-      } else if (currentLayoutName >= 'Level 41' && currentLayoutName <= 'Level 48') {
+        console.log("SET TO OSP");
+      } else if (levelNum >= 41 && levelNum <= 48) {
         currentSection = 'Journey Through the Portal';
-      } else if (currentLayoutName >= 'Level 49' && currentLayoutName <= 'Level 52') {
+        console.log("SET TO JTTP");
+      } else if (levelNum >= 49 && levelNum <= 52) {
         currentSection = 'Community Levels';
       } else {
         // For other layouts, trigger a split with animation
@@ -73,9 +96,16 @@
 
       // Update the previous layout name
       previousLayoutName = currentLayoutName;
+      console.log("Well men this is i we've reached the if statement");
       // Reset the timer
-      timerStart = new Date().getTime();
+      if (previousSection !== currentSection)   {
+        console.log("Well IDK IT WORKED UP TO HERE");
+        timerStart = new Date().getTime();
+        previousSection = currentSection;
+        addTimestampWithAnimation(currentSection);
+      }
     }
+    previousSection = currentSection;
 
     // Continue checking for layout changes
     setTimeout(checkLayoutChange, 100); // Check every 100 milliseconds
